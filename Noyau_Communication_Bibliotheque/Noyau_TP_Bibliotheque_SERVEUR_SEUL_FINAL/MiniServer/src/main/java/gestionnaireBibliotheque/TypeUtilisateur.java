@@ -1,4 +1,7 @@
 package gestionnaireBibliotheque;
 
-public class TypeUtilisateur {
+public enum TypeUtilisateur {
+	ETUDIANT,
+	PERSONNEL,
+	PROFESSEUR
 }
