@@ -12,7 +12,7 @@ public class Livre {
 	public static final int DUREE_MAX_EMPRUNT = 40;
 	private static int idActuel = 1;
 
-	public static int prochainID() {
+	private static int prochainID() {
 		return idActuel++;
 	}
 
