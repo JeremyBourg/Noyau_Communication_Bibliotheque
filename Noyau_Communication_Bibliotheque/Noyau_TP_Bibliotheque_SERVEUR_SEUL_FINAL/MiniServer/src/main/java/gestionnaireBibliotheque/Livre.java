@@ -24,6 +24,10 @@ public class Livre {
 		this.statut = StatutLivre.DISPONIBLE;
 	}
 
+	public int getId() {
+		return this.id;
+	}
+
 	@Override
 	public String toString() {
 		String statutString;
@@ -51,5 +55,18 @@ public class Livre {
 				auteur,
 				categorie,
 				statutString);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == this) return true;
+		if(obj == null) return false;
+
+		if(obj instanceof Livre) {
+			Livre l = (Livre) obj;
+			return this.id == l.getId();
+		}
+
+		return false;
 	}
 }
