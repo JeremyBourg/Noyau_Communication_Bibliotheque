@@ -10,4 +10,10 @@ public class Reservation {
 	TypeUtilisateur typeUtilisateur;
 	int ordreReservation;
 	StatutReservation statutReservation = StatutReservation.EN_ATTENTE;
+
+	private static int idActuel = 1;
+
+	public static int prochainID() {
+		return idActuel++;
+	}
 }
