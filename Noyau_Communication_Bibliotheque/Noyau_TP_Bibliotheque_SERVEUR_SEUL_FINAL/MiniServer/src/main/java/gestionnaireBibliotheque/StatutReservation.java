@@ -1,4 +1,7 @@
 package gestionnaireBibliotheque;
 
-public class StatutReservation {
+public enum StatutReservation {
+	EN_ATTENTE,
+	ATTRIBUEE,
+	ANNULEE
 }
