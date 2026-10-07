@@ -15,4 +15,12 @@ public class Livre {
 	public static int prochainID() {
 		return idActuel++;
 	}
+
+	public Livre(String titre, String auteur, String categorie) {
+		this.id = prochainID();
+		this.titre = titre;
+		this.auteur = auteur;
+		this.categorie = categorie;
+		this.statut = StatutLivre.DISPONIBLE;
+	}
 }
