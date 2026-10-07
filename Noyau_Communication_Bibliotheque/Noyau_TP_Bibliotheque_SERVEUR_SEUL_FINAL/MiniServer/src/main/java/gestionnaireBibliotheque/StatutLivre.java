@@ -1,4 +1,8 @@
 package gestionnaireBibliotheque;
 
-public class StatutLivre {
+public enum StatutLivre {
+	DISPONIBLE,
+	EMPRUNTE,
+	RESERVE,
+	PERDU
 }
