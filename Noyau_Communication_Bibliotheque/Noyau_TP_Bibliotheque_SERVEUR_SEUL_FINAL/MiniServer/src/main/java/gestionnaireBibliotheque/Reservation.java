@@ -75,4 +75,14 @@ public class Reservation implements Comparable<Reservation> {
 		else
 			return -1;
 	}
+
+	@Override
+	public String toString() {
+		return "ID de la réservation: " + id + "\n"
+			+ "ID du livre: " + livre.getId() + "\n"
+			+ "ID de l'utilisaleur: " + idUtilisateur + "\n"
+			+ "Type d'utilisateur: " + typeUtilisateur.toString() + "\n"
+			+ "Ordre de réservation: " + ordreReservation + "\n"
+			+ "Statut de la réservation: " + statutReservation.toString();
+	}
 }
