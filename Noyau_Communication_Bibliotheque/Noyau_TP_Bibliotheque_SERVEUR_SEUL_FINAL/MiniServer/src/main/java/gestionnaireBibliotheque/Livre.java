@@ -23,4 +23,33 @@ public class Livre {
 		this.categorie = categorie;
 		this.statut = StatutLivre.DISPONIBLE;
 	}
+
+	@Override
+	public String toString() {
+		String statutString;
+		switch (this.statut) {
+			case DISPONIBLE:
+				statutString = "Disponible";
+				break;
+			case EMPRUNTE:
+				statutString = "Emprunte";
+				break;
+			case RESERVE:
+				statutString = "Reserve";
+				break;
+			case PERDU:
+				statutString = "Perdu";
+				break;
+			default:
+				statutString = "Statut invalide";
+				break;
+		}
+
+		return String.format("LIVRE %d: %s - %s (%s): %s",
+				id,
+				titre,
+				auteur,
+				categorie,
+				statutString);
+	}
 }
