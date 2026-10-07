@@ -8,4 +8,11 @@ public class Livre {
 	private String auteur;
 	private String categorie;
 	StatutLivre statut = StatutLivre.DISPONIBLE;
+
+	public static final int DUREE_MAX_EMPRUNT = 40;
+	private static int idActuel = 1;
+
+	public static int prochainID() {
+		return idActuel++;
+	}
 }
