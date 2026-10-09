@@ -16,6 +16,8 @@ package com.demo;
 
 import com.atoudeft.serveur.Config;
 import com.atoudeft.serveur.Serveur;
+import gestionnaireBibliotheque.Emprunt;
+import gestionnaireBibliotheque.Livre;
 
 import java.util.Scanner;
 
@@ -28,12 +30,23 @@ import java.util.Scanner;
  * @since 2023-09-01
  */
 public class Main {
-	/**
-	 * M�thode principale du programme.
-	 *
-	 * @param args Arguments du programme
-	 */
+    /**
+     * M�thode principale du programme.
+     *
+     * @param args Arguments du programme
+     */
     public static void main(String[] args) {
+        Livre testLivre = new Livre("Magnus", "Bolivian", "Fiction");
+        Emprunt test = new Emprunt(testLivre, 20, 20);
+        //Emprunt test2 = new Emprunt(testLivre, 2,2);
+        System.out.println(testLivre);
+        System.out.println(test);
+//        System.out.println("Est en retard: " + test.estEnRetard(52));
+//        System.out.println("Jours de retard: " + test.calculerJoursRetard(61));
+//        System.out.println("ID emprunt : " + test.prochainID());
+//        System.out.println(test.calculerJoursRetard(2));
+//        test.retourner(82);
+//        System.out.println(test);
 
         Scanner clavier = new Scanner(System.in);
         String saisie;
