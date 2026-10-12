@@ -16,8 +16,7 @@ package com.demo;
 
 import com.atoudeft.serveur.Config;
 import com.atoudeft.serveur.Serveur;
-import gestionnaireBibliotheque.Emprunt;
-import gestionnaireBibliotheque.Livre;
+import gestionnaireBibliotheque.*;
 
 import java.util.Scanner;
 
@@ -38,9 +37,13 @@ public class Main {
     public static void main(String[] args) {
         Livre testLivre = new Livre("Magnus", "Bolivian", "Fiction");
         Emprunt test = new Emprunt(testLivre, 20, 20);
-        //Emprunt test2 = new Emprunt(testLivre, 2,2);
-        System.out.println(testLivre);
-        System.out.println(test);
+        Reservation reservation = new Reservation(testLivre, 72, TypeUtilisateur.PERSONNEL);
+        Reservation idk = new Reservation(testLivre, 2,TypeUtilisateur.PERSONNEL);
+        //System.out.println(testLivre);
+        //System.out.println(test);
+        System.out.println(reservation.compareTo(reservation));
+
+
 //        System.out.println("Est en retard: " + test.estEnRetard(52));
 //        System.out.println("Jours de retard: " + test.calculerJoursRetard(61));
 //        System.out.println("ID emprunt : " + test.prochainID());
