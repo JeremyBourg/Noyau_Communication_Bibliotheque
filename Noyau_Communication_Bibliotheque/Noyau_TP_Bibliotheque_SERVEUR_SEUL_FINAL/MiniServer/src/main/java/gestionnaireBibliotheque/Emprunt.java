@@ -44,6 +44,31 @@ public class Emprunt {
             statut = StatutEmprunt.EN_RETARD;
         }
     }
+    public int getId() {
+        return id;
+    }
+    public Livre getLivre() {
+        return livre;
+    }
+    public int getIdUtilisateur() {
+        return idUtilisateur;
+    }
+    public int getJourEmprunt() {
+        return jourEmprunt;
+    }
+    public int getJourRetourPrevu() {
+        return jourRetourPrevu;
+    }
+    public int getJourRetour() {
+        return jourRetour;
+    }
+    public StatutEmprunt getStatut() {
+        return statut;
+    }
+    public void setStatut(StatutEmprunt statut) {
+        this.statut = statut;
+    }
+
     @Override
     public String toString() {
         return "Emprunt{" +

@@ -74,6 +74,27 @@ public class  Reservation implements Comparable<Reservation> {
         return 0; // Si tout autre if statement n'est pas trouvé
         // Reservation doit etre même priorité & même nb ordreReservation = 0;
     }
+    public int getId() {
+        return id;
+    }
+    public Livre getLivre() {
+        return livre;
+    }
+    public int getIdUtilisateur() {
+        return idUtilisateur;
+    }
+    public TypeUtilisateur getTypeUtilisateur() {
+        return typeUtilisateur;
+    }
+    public int getOrdreReservation() {
+        return ordreReservation;
+    }
+    public StatutReservation getStatut() {
+        return statutReservation;
+    }
+    public void setStatut(StatutReservation statut) {
+        this.statutReservation = statut;
+    }
 
     @Override
     public String toString() {

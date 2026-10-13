@@ -23,10 +23,18 @@ public class Livre {
 		this.categorie = categorie;
 		this.statut = StatutLivre.DISPONIBLE;
 	}
-
 	public int getId() {
-		return this.id;
-	}
+		return this.id;}
+	public String getTitre() {
+		return titre;}
+	public String getAuteur() {
+		return auteur;}
+	public String getCategorie() {
+		return categorie;}
+	public StatutLivre getStatut() {
+		return statut;}
+	public void setStatut(StatutLivre statut) {
+		this.statut = statut;}
 
 	@Override
 	public String toString() {
@@ -68,5 +76,9 @@ public class Livre {
 		}
 
 		return false;
+	}
+	@Override
+	public int hashCode() {
+		return Integer.hashCode(id);
 	}
 }

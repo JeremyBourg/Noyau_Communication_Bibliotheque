@@ -51,6 +51,22 @@ public abstract class Utilisateur {
 
     public abstract TypeUtilisateur getTypeUtilisateur();
 
+    public int getId() {
+        return id;
+    }
+    public String getNom() {
+        return nom;
+    }
+    public ListeEmprunts getEmpruntsEnCours() {
+        return listeEmpruntsEnCours;
+    }
+    public ListeEmprunts getEmpruntsTermines() {
+        return listeEmpruntsTermines;
+    }
+    public FilePrioriteReservations getReservations() {
+        return reservations;
+    }
+
     @Override
     public String toString() {
         return "Utilisateur{" +
