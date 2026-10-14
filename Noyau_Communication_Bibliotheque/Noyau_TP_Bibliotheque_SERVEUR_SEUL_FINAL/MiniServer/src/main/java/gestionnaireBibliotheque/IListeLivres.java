@@ -1,6 +1,6 @@
 package gestionnaireBibliotheque;
 
-public class IListeLivres {
+public interface IListeLivres {
     public boolean ajouter(Livre livre);
     public Livre supprimer(int idLivre);
     public Livre rechercher(int idLivre);

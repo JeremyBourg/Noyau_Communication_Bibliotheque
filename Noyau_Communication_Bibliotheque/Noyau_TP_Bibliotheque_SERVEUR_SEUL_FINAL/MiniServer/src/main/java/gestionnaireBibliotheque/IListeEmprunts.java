@@ -1,6 +1,6 @@
 package gestionnaireBibliotheque;
 
-public class IListeEmprunts {
+public interface IListeEmprunts {
     public boolean ajouter(Emprunt emprunt);
     public Emprunt supprimer(int idEmprunt);
     public Emprunt rechercher(int idEmprunt);

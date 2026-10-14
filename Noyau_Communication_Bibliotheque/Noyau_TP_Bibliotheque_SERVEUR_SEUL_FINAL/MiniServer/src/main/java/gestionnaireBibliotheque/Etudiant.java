@@ -1,6 +1,6 @@
 package gestionnaireBibliotheque;
 
-public class Etudiant extends Utilsateur {
+public class Etudiant extends Utilisateur {
     public Etudiant(int id, String nom) {
         super(id, nom);
     }
