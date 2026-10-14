@@ -58,10 +58,10 @@ public abstract class Utilisateur {
         return nom;
     }
     public ListeEmprunts getEmpruntsEnCours() {
-        return listeEmpruntsEnCours;
+        return listeEmpruntEnCours;
     }
     public ListeEmprunts getEmpruntsTermines() {
-        return listeEmpruntsTermines;
+        return ListeEmpruntsTermines;
     }
     public FilePrioriteReservations getReservations() {
         return reservations;
