@@ -71,9 +71,9 @@ public abstract class Utilisateur {
     public String toString() {
         return "Utilisateur{" +
                 "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", listeEmpruntEnCours=" + listeEmpruntsEnCours +
-                ", ListeEmpruntsTermines=" + listeEmpruntsTermines +
+                ", nom='" + nom + "'" +
+                ", listeEmpruntsEnCours=" + listeEmpruntsEnCours +
+                ", listeEmpruntsTermines=" + listeEmpruntsTermines +
                 ", reservations=" + reservations +
                 '}';
     }
