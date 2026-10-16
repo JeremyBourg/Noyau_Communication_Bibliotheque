@@ -3,8 +3,8 @@ package gestionnaireBibliotheque;
 public abstract class Utilisateur {
     private int id; //Id utilisateur
     private String nom;
-    private ListeEmprunts listeEmpruntEnCours; // = ListeEmprunts.EnCours;
-    private ListeEmprunts ListeEmpruntsTermines; // = listeEmprunts.Termines;
+    private ListeEmprunts listeEmpruntsEnCours; // = ListeEmprunts.EnCours;
+    private ListeEmprunts listeEmpruntsTermines; // = listeEmprunts.Termines;
     private FilePrioriteReservations reservations;
     public static final int MAX_RESERVATIONS = 10;
 
@@ -58,10 +58,10 @@ public abstract class Utilisateur {
         return nom;
     }
     public ListeEmprunts getEmpruntsEnCours() {
-        return listeEmpruntEnCours;
+        return listeEmpruntsEnCours;
     }
     public ListeEmprunts getEmpruntsTermines() {
-        return ListeEmpruntsTermines;
+        return listeEmpruntsTermines;
     }
     public FilePrioriteReservations getReservations() {
         return reservations;
@@ -72,8 +72,8 @@ public abstract class Utilisateur {
         return "Utilisateur{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
-                ", listeEmpruntEnCours=" + listeEmpruntEnCours +
-                ", ListeEmpruntsTermines=" + ListeEmpruntsTermines +
+                ", listeEmpruntEnCours=" + listeEmpruntsEnCours +
+                ", ListeEmpruntsTermines=" + listeEmpruntsTermines +
                 ", reservations=" + reservations +
                 '}';
     }

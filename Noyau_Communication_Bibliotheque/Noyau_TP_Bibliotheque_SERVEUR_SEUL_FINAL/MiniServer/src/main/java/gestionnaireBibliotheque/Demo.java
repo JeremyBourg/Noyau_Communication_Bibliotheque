@@ -80,6 +80,7 @@ public class Demo {
         liste.ajouter(livre);
         liste.ajouter(cleanCode);
         liste.ajouter(dune);
+        System.out.println(liste);
         System.out.println("Taille : " + liste.taille() + " (attendu : 3)");
         System.out.println("Contient Dune : " + liste.contient(dune.getId()) + " (attendu : true)");
         System.out.println("Rechercher id 2 : " + liste.rechercher(2));
@@ -90,13 +91,13 @@ public class Demo {
         }
         System.out.println("Supprimer CleanCode : " + liste.supprimer(cleanCode.getId()));
         System.out.println("Taille apres suppression : " + liste.taille() + " (attendu : 2)");
-        System.out.println(liste);
 
         System.out.println();
         System.out.println("===== ListeEmprunts =====");
         ListeEmprunts listeEmprunts = new ListeEmprunts();
         listeEmprunts.ajouter(emprunt);
         listeEmprunts.ajouter(aTemps);
+        System.out.println(listeEmprunts);
         System.out.println("Taille : " + listeEmprunts.taille() + " (attendu : 2)");
         System.out.println("Contient l'emprunt " + aTemps.getId() + " : " + listeEmprunts.contient(aTemps.getId()) + " (attendu : true)");
         System.out.println("Parcours avec for-each :");

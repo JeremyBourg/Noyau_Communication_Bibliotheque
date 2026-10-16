@@ -56,10 +56,11 @@ public class ListeEmprunts implements IListeEmprunts, Iterable<Emprunt> {
 
     @Override
     public String toString() {
-        String resultat = "Emprunts (" + emprunts.size() + ") :";
+        String resultat = "ListeEmprunts (" + emprunts.size() + "){";
         for (Emprunt emprunt : emprunts) {
-            resultat += "\n" + emprunt;
+            resultat += "\n\t" + emprunt;
         }
+        resultat += "\n}";
         return resultat;
     }
 }

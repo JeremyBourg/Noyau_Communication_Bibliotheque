@@ -40,10 +40,11 @@ public class FilePrioriteReservations {
 
     @Override
     public String toString() {
-        String resultat = "Reservations (" + file.size() + ") :";
+        String resultat = "FilePrioriteReservations (" + file.size() + "){";
         for (Reservation r : file) {
-            resultat += "\n" + r;
+            resultat += "\n\t" + r;
         }
+        resultat += "\n}";
         return resultat;
     }
 }

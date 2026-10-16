@@ -56,10 +56,11 @@ public class ListeLivres implements IListeLivres, Iterable<Livre> {
 
     @Override
     public String toString() {
-        String resultat = "Livres (" + livres.size() + ") :";
+        String resultat = "ListeLivres (" + livres.size() + "){";
         for (Livre livre : livres) {
-            resultat += "\n" + livre;
+            resultat += "\n\t" + livre;
         }
+        resultat += "\n}";
         return resultat;
     }
 }
