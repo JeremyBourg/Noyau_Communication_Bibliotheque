@@ -3,37 +3,37 @@ package gestionnaireBibliotheque;
 public abstract class Utilisateur {
     private int id;
     private String nom;
-    private ListeEmprunts listeEmpruntEnCours;
-    private ListeEmprunts listeEmpruntsTermines;
+    private ListeEmprunts empruntsEnCours;
+    private ListeEmprunts empruntsTermines;
     private FilePrioriteReservations reservations;
     public static final int MAX_RESERVATIONS = 10;
 
     public Utilisateur(int id, String nom) {
         this.id = id;
         this.nom = nom;
-        this.listeEmpruntEnCours = new ListeEmprunts();
-        this.listeEmpruntsTermines = new ListeEmprunts();
+        this.empruntsEnCours = new ListeEmprunts();
+        this.empruntsTermines = new ListeEmprunts();
         this.reservations = new FilePrioriteReservations();
     }
 
     public void ajouterEmpruntEnCours(Emprunt emprunt){
         if (emprunt.getStatut() == StatutEmprunt.EN_COURS) {
-            listeEmpruntEnCours.ajouter(emprunt);
+            empruntsEnCours.ajouter(emprunt);
         } else {
             System.out.println("L'emprunt n'est pas en cours : " + emprunt.getLivre() + emprunt.getStatut());
         }
     }
     public void ajouterEmpruntTermine(Emprunt emprunt){
-        if (emprunt.getStatut() == StatutEmprunt.RETOURNE) {
-            listeEmpruntsTermines.ajouter(emprunt);
+        if (emprunt.getStatut() == StatutEmprunt.RETOURNE || emprunt.getStatut() == StatutEmprunt.EN_RETARD) {
+            empruntsTermines.ajouter(emprunt);
         } else {
             System.out.println("L'emprunt n'est pas retourné : " + emprunt.getLivre() + emprunt.getStatut());
         }
     }
 
     public Emprunt supprimerEmpruntEnCours(int idEmprunt) {
-        if (listeEmpruntEnCours.contient(idEmprunt)) {
-            return listeEmpruntEnCours.supprimer(idEmprunt);
+        if (empruntsEnCours.contient(idEmprunt)) {
+            return empruntsEnCours.supprimer(idEmprunt);
         } else {
             return null;
         }
@@ -46,21 +46,21 @@ public abstract class Utilisateur {
 
 
     public Emprunt rechercherEmpruntEnCours(int idEmprunt) {
-        if (listeEmpruntEnCours.contient(idEmprunt)) {
-            return listeEmpruntEnCours.rechercher(idEmprunt);
+        if (empruntsEnCours.contient(idEmprunt)) {
+            return empruntsEnCours.rechercher(idEmprunt);
         } else {
             return null;
         }
     }
 
     public Emprunt rechercherEmpruntTermine(int idEmprunt){
-        if (listeEmpruntsTermines.contient(idEmprunt)){
-            return listeEmpruntsTermines.rechercher(idEmprunt);
+        if (empruntsTermines.contient(idEmprunt)){
+            return empruntsTermines.rechercher(idEmprunt);
         }
         return null;
     }
     public boolean aDesEmpruntsEnCours() {
-        if (listeEmpruntEnCours.estVide()) {
+        if (empruntsEnCours.estVide()) {
             return false;
         } else {
             return true;
@@ -68,7 +68,7 @@ public abstract class Utilisateur {
     }
     public abstract int nombreMaxEmprunts();
     public boolean peutEmprunter(){
-        if (listeEmpruntEnCours.taille() < nombreMaxEmprunts()) {
+        if (empruntsEnCours.taille() < nombreMaxEmprunts()) {
             return true;
         }
         return false;
@@ -97,10 +97,10 @@ public abstract class Utilisateur {
         return nom;
     }
     public ListeEmprunts getEmpruntsEnCours() {
-        return listeEmpruntEnCours;
+        return empruntsEnCours;
     }
     public ListeEmprunts getEmpruntsTermines() {
-        return listeEmpruntsTermines;
+        return empruntsTermines;
     }
     public FilePrioriteReservations getReservations() {
         return reservations;
@@ -111,8 +111,8 @@ public abstract class Utilisateur {
         return "Utilisateur{ type: " + getTypeUtilisateur() +
                 " ,id= " + id +
                 " ,nom= '" + nom + '\'' +
-                " ,listeEmpruntEnCours= " + listeEmpruntEnCours.taille() +
-                " ,ListeEmpruntsTermines= " + listeEmpruntsTermines.taille() +
+                " ,empruntsEnCours= " + empruntsEnCours.taille() +
+                " ,empruntsTermines= " + empruntsTermines.taille() +
                 " ,reservations= " + reservations.taille() +
                 '}';
     }

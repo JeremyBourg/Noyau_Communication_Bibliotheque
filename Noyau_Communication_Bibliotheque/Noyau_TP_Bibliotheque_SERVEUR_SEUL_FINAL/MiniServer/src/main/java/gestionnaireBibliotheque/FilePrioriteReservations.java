@@ -40,7 +40,7 @@ public class FilePrioriteReservations {
 
     public boolean contientLivre(int idLivre) { // Extra methode pour comparer les livres hors de la class Utilisateur
         for (Reservation r: file){
-            if (r.getId() == idLivre){
+            if (r.getLivre().getId() == idLivre && r.getStatut() == StatutReservation.EN_ATTENTE){
                 return true;
             }
         }
