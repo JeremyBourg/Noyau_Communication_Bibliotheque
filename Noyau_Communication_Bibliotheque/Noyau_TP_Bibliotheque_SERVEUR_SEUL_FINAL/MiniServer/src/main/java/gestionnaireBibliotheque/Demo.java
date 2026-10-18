@@ -106,6 +106,12 @@ public class Demo {
         System.out.println("Supprimer l'emprunt " + emprunt.getId() + " : " + (listeEmprunts.supprimer(emprunt.getId()) != null) + " (attendu : true)");
         System.out.println("Rechercher id 999 : " + listeEmprunts.rechercher(999) + " (attendu : null)");
         System.out.println(listeEmprunts);
+
+
+        GestionnaireBibliotheque gestionBiblio = new GestionnaireBibliotheque();
+        gestionBiblio.setLivres(liste);
+        System.out.println(gestionBiblio.traiterCommande(1,"books", "1 PROFESSEUR Deino"));
+        System.out.println(gestionBiblio.traiterCommande(12,"REGISTER","120 ETUDIANT Sara"));
     }
 }
 
