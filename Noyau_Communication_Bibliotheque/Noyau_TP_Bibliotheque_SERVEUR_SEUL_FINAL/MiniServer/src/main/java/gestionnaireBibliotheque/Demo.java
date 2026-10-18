@@ -109,10 +109,24 @@ public class Demo {
         System.out.println(listeEmprunts);
 
 
+        System.out.println();
+        System.out.println("===== Traitement de commandes =====");
         GestionnaireBibliotheque gestionBiblio = new GestionnaireBibliotheque();
         gestionBiblio.setLivres(liste);
-        System.out.println(gestionBiblio.traiterCommande(1,"books", "1 PROFESSEUR Deino"));
-        System.out.println(gestionBiblio.traiterCommande(12,"REGISTER","120 ETUDIANT Sara"));
+        printCommandeHelper("ID 120",
+                gestionBiblio.traiterCommande(12,"ID","120"));
+        printCommandeHelper("REGISTER 120 ETUDIANT Sara",
+                gestionBiblio.traiterCommande(12,"REGISTER","120 ETUDIANT Sara"));
+        printCommandeHelper("ID 120",
+                gestionBiblio.traiterCommande(120,"ID","120"));
+        printCommandeHelper("ID 120",
+                gestionBiblio.traiterCommande(120,"ID","120"));
+        printCommandeHelper("books 1 PROFESSEUR Deino",
+                gestionBiblio.traiterCommande(1,"books", "1 PROFESSEUR Deino"));
+    }
+
+    private static void printCommandeHelper(String cmd, String output) {
+        System.out.printf("> %s\n\t%s\n", cmd, output);
     }
 }
 

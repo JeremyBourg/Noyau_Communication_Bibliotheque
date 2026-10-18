@@ -55,21 +55,38 @@ public class GestionnaireBibliotheque {
 
 
     public String traiterID(int idConnexion, String argument){
-        return argument;
+        int idArg;
+        try {
+            idArg = Integer.parseInt(argument);
+        } catch (NumberFormatException e){
+            return BAD_ARGUMENT_ERROR;
+        }
+
+        if (! (utilisateurs.containsKey(idArg)))
+            return BAD_ARGUMENT_ERROR;
+
+        if (utilisateursAuthentifies.containsKey(idConnexion))
+            return ALREADY_AUTHENTIFIED_ERROR;
+
+        if (utilisateursAuthentifies.containsKey(idArg))
+            return TOO_MANY_CONNECTIONS_ERROR;
+
+        utilisateursAuthentifies.put(idArg, utilisateurs.get(idArg));
+        return String.format("AUTHORIZED %d %s", idArg, utilisateurs.get(idArg).getNom());
     }
     public String traiterBOOKS(){
         String reponse = "BOOKS <" + livres.taille() + "> ";
         for (Livre livre : livres){
             reponse += " {" + livre.getId() +
-                    " " + livre.getTitre() +
-                    " " + livre.getAuteur() +
-                    " " + livre.getCategorie() +
-                    " " + livre.getStatut() + "}";
+                " " + livre.getTitre() +
+                " " + livre.getAuteur() +
+                " " + livre.getCategorie() +
+                " " + livre.getStatut() + "}";
         }
         return reponse;
     }
     public String traiterBORROW(int idConnexion, String argument) {
-     return argument;
+        return argument;
     }
     public String traiterRETURN(int idConnexion, String argument){
         return argument;
@@ -92,7 +109,7 @@ public class GestionnaireBibliotheque {
 
         int idRegister;
         try {
-           idRegister  = Integer.parseInt(argumentInformation[0]);
+            idRegister  = Integer.parseInt(argumentInformation[0]);
         } catch (NumberFormatException e){
             return BAD_ARGUMENT_ERROR;
         }
