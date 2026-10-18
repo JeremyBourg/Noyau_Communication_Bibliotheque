@@ -38,6 +38,15 @@ public class FilePrioriteReservations {
         return meilleure;
     }
 
+    public boolean contientLivre(int idLivre) { // Extra methode pour comparer les livres hors de la class Utilisateur
+        for (Reservation r: file){
+            if (r.getId() == idLivre){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         String resultat = "FilePrioriteReservations (" + file.size() + "){";
