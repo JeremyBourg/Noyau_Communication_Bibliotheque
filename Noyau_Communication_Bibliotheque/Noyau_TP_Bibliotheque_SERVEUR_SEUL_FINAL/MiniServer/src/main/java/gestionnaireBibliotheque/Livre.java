@@ -41,7 +41,7 @@ public class Livre {
 				"titre=" + titre + ", " +
 				"auteur=" + auteur + ", " +
 				"categorie=" + categorie + ", " +
-				"statutString=" + statut + "}";
+				"statut=" + statut + "}";
 	}
 
 	@Override
