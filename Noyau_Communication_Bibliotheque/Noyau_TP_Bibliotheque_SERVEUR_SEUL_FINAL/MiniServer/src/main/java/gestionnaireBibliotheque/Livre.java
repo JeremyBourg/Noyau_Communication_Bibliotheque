@@ -1,7 +1,5 @@
 package gestionnaireBibliotheque;
 
-import gestionnaireBibliotheque.StatutLivre;
-
 public class Livre {
 	private int id;
 	private String titre;
@@ -38,31 +36,12 @@ public class Livre {
 
 	@Override
 	public String toString() {
-		String statutString;
-		switch (this.statut) {
-			case DISPONIBLE:
-				statutString = "Disponible";
-				break;
-			case EMPRUNTE:
-				statutString = "Emprunte";
-				break;
-			case RESERVE:
-				statutString = "Reserve";
-				break;
-			case PERDU:
-				statutString = "Perdu";
-				break;
-			default:
-				statutString = "Statut invalide";
-				break;
-		}
-
-		return String.format("LIVRE %d: %s - %s (%s): %s",
-				id,
-				titre,
-				auteur,
-				categorie,
-				statutString);
+		return "Livre{" +
+				"id=" + id + ", " +
+				"titre=" + titre + ", " +
+				"auteur=" + auteur + ", " +
+				"categorie=" + categorie + ", " +
+				"statutString=" + statut + "}";
 	}
 
 	@Override
