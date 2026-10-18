@@ -121,73 +121,85 @@ public class Demo {
         catalogue.ajouter(petitPrince);
         gestionBiblio.setLivres(catalogue);
 
-        tester(gestionBiblio, 1, "BOOKS", null, "BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique DISPONIBLE} {6 PetitPrince SaintExupery Roman DISPONIBLE}");
-        tester(gestionBiblio, 1, "HELLO", null, "COMMAND_ERROR");
+        int testsEchoues = 0;
 
-        System.out.println("--- REGISTER ---");
-        tester(gestionBiblio, 1, "REGISTER", "120 ETUDIANT Sara", "REGISTERED 120 Sara");
-        tester(gestionBiblio, 1, "REGISTER", "201 PERSONNEL Julie", "REGISTERED 201 Julie");
-        tester(gestionBiblio, 1, "REGISTER", "301 PROFESSEUR Tremblay", "REGISTERED 301 Tremblay");
-        tester(gestionBiblio, 1, "REGISTER", "120 ETUDIANT Autre", "BAD_ARGUMENT_ERROR");
-        tester(gestionBiblio, 1, "REGISTER", "abc ETUDIANT Sara", "BAD_ARGUMENT_ERROR");
-        tester(gestionBiblio, 1, "REGISTER", "130 DIRECTEUR Paul", "BAD_ARGUMENT_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "BOOKS", null, "BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique DISPONIBLE} {6 PetitPrince SaintExupery Roman DISPONIBLE}");
+        testsEchoues += tester(gestionBiblio, 1, "HELLO", null, "COMMAND_ERROR");
 
-        System.out.println("--- ID ---");
-        tester(gestionBiblio, 1, "BORROW", "4 10", "AUTHENTICATION_ERROR");
-        tester(gestionBiblio, 1, "ID", "999", "BAD_ARGUMENT_ERROR");
-        tester(gestionBiblio, 1, "ID", "120", "AUTHORIZED 120 Sara");
-        tester(gestionBiblio, 1, "ID", "201", "ALREADY_AUTHENTIFIED_ERROR");
-        tester(gestionBiblio, 2, "ID", "120", "TOO_MANY_CONNECTIONS_ERROR");
-        tester(gestionBiblio, 2, "ID", "201", "AUTHORIZED 201 Julie");
-        tester(gestionBiblio, 3, "ID", "301", "AUTHORIZED 301 Tremblay");
+        // REGISTER
+        testsEchoues += tester(gestionBiblio, 1, "REGISTER", "120 ETUDIANT Sara", "REGISTERED 120 Sara");
+        testsEchoues += tester(gestionBiblio, 1, "REGISTER", "201 PERSONNEL Julie", "REGISTERED 201 Julie");
+        testsEchoues += tester(gestionBiblio, 1, "REGISTER", "301 PROFESSEUR Tremblay", "REGISTERED 301 Tremblay");
+        testsEchoues += tester(gestionBiblio, 1, "REGISTER", "120 ETUDIANT Autre", "BAD_ARGUMENT_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "REGISTER", "abc ETUDIANT Sara", "BAD_ARGUMENT_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "REGISTER", "130 DIRECTEUR Paul", "BAD_ARGUMENT_ERROR");
 
-        System.out.println("--- BORROW ---");
-        tester(gestionBiblio, 1, "BORROW", "4 10", "BORROW_OK 4 4 50");
-        tester(gestionBiblio, 2, "BORROW", "4 11", "BOOK_NOT_AVAILABLE_ERROR");
-        tester(gestionBiblio, 1, "BORROW", "99 10", "BOOK_NOT_FOUND_ERROR");
-        tester(gestionBiblio, 1, "BORROW", "5", "BAD_ARGUMENT_ERROR");
-        tester(gestionBiblio, 1, "BORROW", "5 12", "BORROW_OK 5 5 52");
+        // ID
+        testsEchoues += tester(gestionBiblio, 1, "BORROW", "4 10", "AUTHENTICATION_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "ID", "999", "BAD_ARGUMENT_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "ID", "120", "AUTHORIZED 120 Sara");
+        testsEchoues += tester(gestionBiblio, 1, "ID", "201", "ALREADY_AUTHENTIFIED_ERROR");
+        testsEchoues += tester(gestionBiblio, 2, "ID", "120", "TOO_MANY_CONNECTIONS_ERROR");
+        testsEchoues += tester(gestionBiblio, 2, "ID", "201", "AUTHORIZED 201 Julie");
+        testsEchoues += tester(gestionBiblio, 3, "ID", "301", "AUTHORIZED 301 Tremblay");
 
-        System.out.println("--- INFO ---");
-        tester(gestionBiblio, 1, "INFO", null, "INFO 2 {4 4 10 50 EN_COURS} {5 5 12 52 EN_COURS}");
-        tester(gestionBiblio, 1, "INFO", "5", "INFO 1 {5 5 12 52 EN_COURS}");
-        tester(gestionBiblio, 2, "INFO", "5", "BAD_BORROW_ERROR");
-        tester(gestionBiblio, 1, "INFO", "x", "BAD_ARGUMENT_ERROR");
+        // BORROW
+        testsEchoues += tester(gestionBiblio, 1, "BORROW", "4 10", "BORROW_OK 4 4 50");
+        testsEchoues += tester(gestionBiblio, 2, "BORROW", "4 11", "BOOK_NOT_AVAILABLE_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "BORROW", "99 10", "BOOK_NOT_FOUND_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "BORROW", "5", "BAD_ARGUMENT_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "BORROW", "5 12", "BORROW_OK 5 5 52");
 
-        System.out.println("--- RESERVE ---");
-        tester(gestionBiblio, 2, "RESERVE", "6", "BOOK_ALREADY_AVAILABLE_ERROR");
-        tester(gestionBiblio, 2, "RESERVE", "99", "BOOK_NOT_FOUND_ERROR");
-        tester(gestionBiblio, 2, "RESERVE", "4", "RESERVATION_OK 5 4");
-        tester(gestionBiblio, 2, "RESERVE", "4", "BAD_ARGUMENT_ERROR");
-        tester(gestionBiblio, 3, "RESERVE", "4", "RESERVATION_OK 6 4");
+        // INFO
+        testsEchoues += tester(gestionBiblio, 1, "INFO", null, "INFO 2 {4 4 10 50 EN_COURS} {5 5 12 52 EN_COURS}");
+        testsEchoues += tester(gestionBiblio, 1, "INFO", "5", "INFO 1 {5 5 12 52 EN_COURS}");
+        testsEchoues += tester(gestionBiblio, 2, "INFO", "5", "BAD_BORROW_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "INFO", "x", "BAD_ARGUMENT_ERROR");
 
-        System.out.println("--- RETURN ---");
-        tester(gestionBiblio, 2, "RETURN", "4 40", "BAD_BORROW_ERROR");
-        tester(gestionBiblio, 1, "RETURN", "4 60", "RESERVATION_ASSIGNED 6 4");
-        tester(gestionBiblio, 3, "INFO", null, "INFO 1 {6 4 60 100 EN_COURS}");
-        tester(gestionBiblio, 3, "RETURN", "6 70", "RESERVATION_ASSIGNED 7 4");
-        tester(gestionBiblio, 2, "RETURN", "7 80", "RETURN_OK 7 4");
-        tester(gestionBiblio, 1, "BOOKS", null, "BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique EMPRUNTE} {6 PetitPrince SaintExupery Roman DISPONIBLE}");
+        // RESERVE
+        testsEchoues += tester(gestionBiblio, 2, "RESERVE", "6", "BOOK_ALREADY_AVAILABLE_ERROR");
+        testsEchoues += tester(gestionBiblio, 2, "RESERVE", "99", "BOOK_NOT_FOUND_ERROR");
+        testsEchoues += tester(gestionBiblio, 2, "RESERVE", "4", "RESERVATION_OK 5 4");
+        testsEchoues += tester(gestionBiblio, 2, "RESERVE", "4", "BAD_ARGUMENT_ERROR");
+        testsEchoues += tester(gestionBiblio, 3, "RESERVE", "4", "RESERVATION_OK 6 4");
 
-        System.out.println("--- PENALTY ---");
-        tester(gestionBiblio, 1, "PENALTY", "4 100", "PENALTY 2.50 10");
-        tester(gestionBiblio, 1, "PENALTY", "5 60", "PENALTY 2.00 8");
-        tester(gestionBiblio, 1, "PENALTY", "5 30", "PENALTY 0.00 0");
-        tester(gestionBiblio, 2, "PENALTY", "5 60", "BAD_BORROW_ERROR");
+        // RETURN
+        testsEchoues += tester(gestionBiblio, 2, "RETURN", "4 40", "BAD_BORROW_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "RETURN", "4 60", "RESERVATION_ASSIGNED 6 4");
+        testsEchoues += tester(gestionBiblio, 3, "INFO", null, "INFO 1 {6 4 60 100 EN_COURS}");
+        testsEchoues += tester(gestionBiblio, 3, "RETURN", "6 70", "RESERVATION_ASSIGNED 7 4");
+        testsEchoues += tester(gestionBiblio, 2, "RETURN", "7 80", "RETURN_OK 7 4");
+        testsEchoues += tester(gestionBiblio, 1, "BOOKS", null, "BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique EMPRUNTE} {6 PetitPrince SaintExupery Roman DISPONIBLE}");
 
-        System.out.println("--- EXIT ---");
-        tester(gestionBiblio, 1, "EXIT", null, "END");
-        tester(gestionBiblio, 1, "EXIT", null, "AUTHENTICATION_ERROR");
-        tester(gestionBiblio, 1, "INFO", null, "AUTHENTICATION_ERROR");
-        tester(gestionBiblio, 4, "ID", "120", "AUTHORIZED 120 Sara");
+        // PENALTY
+        testsEchoues += tester(gestionBiblio, 1, "PENALTY", "4 100", "PENALTY 2.50 10");
+        testsEchoues += tester(gestionBiblio, 1, "PENALTY", "5 60", "PENALTY 2.00 8");
+        testsEchoues += tester(gestionBiblio, 1, "PENALTY", "5 30", "PENALTY 0.00 0");
+        testsEchoues += tester(gestionBiblio, 2, "PENALTY", "5 60", "BAD_BORROW_ERROR");
+
+        // EXIT
+        testsEchoues += tester(gestionBiblio, 1, "EXIT", null, "END");
+        testsEchoues += tester(gestionBiblio, 1, "EXIT", null, "AUTHENTICATION_ERROR");
+        testsEchoues += tester(gestionBiblio, 1, "INFO", null, "AUTHENTICATION_ERROR");
+        testsEchoues += tester(gestionBiblio, 4, "ID", "120", "AUTHORIZED 120 Sara");
+
+        if(testsEchoues == 0) {
+            System.out.println("Tous les tests ont passés.");
+        } else {
+            System.out.println(testsEchoues + " tests ont échoué.");
+        }
     }
 
-    private static void tester(GestionnaireBibliotheque gestion, int idConnexion, String commande, String argument, String attendu) {
+    private static int tester(GestionnaireBibliotheque gestion, int idConnexion, String commande, String argument, String attendu) {
         String reponse = gestion.traiterCommande(idConnexion, commande, argument);
         String texteCommande = commande;
         if (argument != null) {
             texteCommande += " " + argument;
         }
-        System.out.println("[" + idConnexion + "] " + texteCommande + " -> " + reponse + " (attendu : " + attendu + ")");
+        if (! reponse.equals(attendu)) {
+            System.out.println("[" + idConnexion + "] " + texteCommande + " -> " + reponse + " (attendu : " + attendu + ")");
+            return 1;
+        }
+        return 0;
     }
 }
