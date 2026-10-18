@@ -110,23 +110,84 @@ public class Demo {
 
 
         System.out.println();
-        System.out.println("===== Traitement de commandes =====");
+        System.out.println("===== Partie II : commandes =====");
         GestionnaireBibliotheque gestionBiblio = new GestionnaireBibliotheque();
-        gestionBiblio.setLivres(liste);
-        printCommandeHelper("ID 120",
-                gestionBiblio.traiterCommande(12,"ID","120"));
-        printCommandeHelper("REGISTER 120 ETUDIANT Sara",
-                gestionBiblio.traiterCommande(12,"REGISTER","120 ETUDIANT Sara"));
-        printCommandeHelper("ID 120",
-                gestionBiblio.traiterCommande(120,"ID","120"));
-        printCommandeHelper("ID 120",
-                gestionBiblio.traiterCommande(120,"ID","120"));
-        printCommandeHelper("books 1 PROFESSEUR Deino",
-                gestionBiblio.traiterCommande(1,"books", "1 PROFESSEUR Deino"));
+        ListeLivres catalogue = new ListeLivres();
+        Livre algo = new Livre("Algorithmes", "Cormen", "Informatique");
+        Livre reseaux = new Livre("Reseaux", "Tanenbaum", "Informatique");
+        Livre petitPrince = new Livre("PetitPrince", "SaintExupery", "Roman");
+        catalogue.ajouter(algo);
+        catalogue.ajouter(reseaux);
+        catalogue.ajouter(petitPrince);
+        gestionBiblio.setLivres(catalogue);
+
+        tester(gestionBiblio, 1, "BOOKS", null, "BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique DISPONIBLE} {6 PetitPrince SaintExupery Roman DISPONIBLE}");
+        tester(gestionBiblio, 1, "HELLO", null, "COMMAND_ERROR");
+
+        System.out.println("--- REGISTER ---");
+        tester(gestionBiblio, 1, "REGISTER", "120 ETUDIANT Sara", "REGISTERED 120 Sara");
+        tester(gestionBiblio, 1, "REGISTER", "201 PERSONNEL Julie", "REGISTERED 201 Julie");
+        tester(gestionBiblio, 1, "REGISTER", "301 PROFESSEUR Tremblay", "REGISTERED 301 Tremblay");
+        tester(gestionBiblio, 1, "REGISTER", "120 ETUDIANT Autre", "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio, 1, "REGISTER", "abc ETUDIANT Sara", "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio, 1, "REGISTER", "130 DIRECTEUR Paul", "BAD_ARGUMENT_ERROR");
+
+        System.out.println("--- ID ---");
+        tester(gestionBiblio, 1, "BORROW", "4 10", "AUTHENTICATION_ERROR");
+        tester(gestionBiblio, 1, "ID", "999", "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio, 1, "ID", "120", "AUTHORIZED 120 Sara");
+        tester(gestionBiblio, 1, "ID", "201", "ALREADY_AUTHENTIFIED_ERROR");
+        tester(gestionBiblio, 2, "ID", "120", "TOO_MANY_CONNECTIONS_ERROR");
+        tester(gestionBiblio, 2, "ID", "201", "AUTHORIZED 201 Julie");
+        tester(gestionBiblio, 3, "ID", "301", "AUTHORIZED 301 Tremblay");
+
+        System.out.println("--- BORROW ---");
+        tester(gestionBiblio, 1, "BORROW", "4 10", "BORROW_OK 4 4 50");
+        tester(gestionBiblio, 2, "BORROW", "4 11", "BOOK_NOT_AVAILABLE_ERROR");
+        tester(gestionBiblio, 1, "BORROW", "99 10", "BOOK_NOT_FOUND_ERROR");
+        tester(gestionBiblio, 1, "BORROW", "5", "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio, 1, "BORROW", "5 12", "BORROW_OK 5 5 52");
+
+        System.out.println("--- INFO ---");
+        tester(gestionBiblio, 1, "INFO", null, "INFO 2 {4 4 10 50 EN_COURS} {5 5 12 52 EN_COURS}");
+        tester(gestionBiblio, 1, "INFO", "5", "INFO 1 {5 5 12 52 EN_COURS}");
+        tester(gestionBiblio, 2, "INFO", "5", "BAD_BORROW_ERROR");
+        tester(gestionBiblio, 1, "INFO", "x", "BAD_ARGUMENT_ERROR");
+
+        System.out.println("--- RESERVE ---");
+        tester(gestionBiblio, 2, "RESERVE", "6", "BOOK_ALREADY_AVAILABLE_ERROR");
+        tester(gestionBiblio, 2, "RESERVE", "99", "BOOK_NOT_FOUND_ERROR");
+        tester(gestionBiblio, 2, "RESERVE", "4", "RESERVATION_OK 5 4");
+        tester(gestionBiblio, 2, "RESERVE", "4", "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio, 3, "RESERVE", "4", "RESERVATION_OK 6 4");
+
+        System.out.println("--- RETURN ---");
+        tester(gestionBiblio, 2, "RETURN", "4 40", "BAD_BORROW_ERROR");
+        tester(gestionBiblio, 1, "RETURN", "4 60", "RESERVATION_ASSIGNED 6 4");
+        tester(gestionBiblio, 3, "INFO", null, "INFO 1 {6 4 60 100 EN_COURS}");
+        tester(gestionBiblio, 3, "RETURN", "6 70", "RESERVATION_ASSIGNED 7 4");
+        tester(gestionBiblio, 2, "RETURN", "7 80", "RETURN_OK 7 4");
+        tester(gestionBiblio, 1, "BOOKS", null, "BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique EMPRUNTE} {6 PetitPrince SaintExupery Roman DISPONIBLE}");
+
+        System.out.println("--- PENALTY ---");
+        tester(gestionBiblio, 1, "PENALTY", "4 100", "PENALTY 2.50 10");
+        tester(gestionBiblio, 1, "PENALTY", "5 60", "PENALTY 2.00 8");
+        tester(gestionBiblio, 1, "PENALTY", "5 30", "PENALTY 0.00 0");
+        tester(gestionBiblio, 2, "PENALTY", "5 60", "BAD_BORROW_ERROR");
+
+        System.out.println("--- EXIT ---");
+        tester(gestionBiblio, 1, "EXIT", null, "END");
+        tester(gestionBiblio, 1, "EXIT", null, "AUTHENTICATION_ERROR");
+        tester(gestionBiblio, 1, "INFO", null, "AUTHENTICATION_ERROR");
+        tester(gestionBiblio, 4, "ID", "120", "AUTHORIZED 120 Sara");
     }
 
-    private static void printCommandeHelper(String cmd, String output) {
-        System.out.printf("> %s\n\t%s\n", cmd, output);
+    private static void tester(GestionnaireBibliotheque gestion, int idConnexion, String commande, String argument, String attendu) {
+        String reponse = gestion.traiterCommande(idConnexion, commande, argument);
+        String texteCommande = commande;
+        if (argument != null) {
+            texteCommande += " " + argument;
+        }
+        System.out.println("[" + idConnexion + "] " + texteCommande + " -> " + reponse + " (attendu : " + attendu + ")");
     }
 }
-
