@@ -84,7 +84,7 @@ public class GestionnaireBibliotheque {
                 " " + emprunt.getStatut() + "}";
     }
 
-    public String traiterID(int idConnexion, String argument){
+    private String traiterID(int idConnexion, String argument){
         int[] valeurs = lireEntiers(argument, 1);
         if (valeurs == null || !utilisateurs.containsKey(valeurs[0])) {
             return BAD_ARGUMENT_ERROR;
@@ -100,7 +100,7 @@ public class GestionnaireBibliotheque {
         return "AUTHORIZED " + utilisateur.getId() + " " + utilisateur.getNom();
     }
 
-    public String traiterBOOKS(){
+    private String traiterBOOKS(){
         String reponse = "BOOKS " + livres.taille();
         for (Livre livre : livres){
             reponse += " {" + livre.getId() +
@@ -112,7 +112,7 @@ public class GestionnaireBibliotheque {
         return reponse;
     }
 
-    public String traiterBORROW(int idConnexion, String argument) {
+    private String traiterBORROW(int idConnexion, String argument) {
         Utilisateur utilisateur = utilisateursAuthentifies.get(idConnexion);
         if (utilisateur == null) {
             return AUTHENTICATION_ERROR;
@@ -137,7 +137,7 @@ public class GestionnaireBibliotheque {
         return "BORROW_OK " + emprunt.getId() + " " + livre.getId() + " " + emprunt.getJourRetourPrevu();
     }
 
-    public String traiterRETURN(int idConnexion, String argument){
+    private String traiterRETURN(int idConnexion, String argument){
         Utilisateur utilisateur = utilisateursAuthentifies.get(idConnexion);
         if (utilisateur == null) {
             return AUTHENTICATION_ERROR;
@@ -152,8 +152,7 @@ public class GestionnaireBibliotheque {
         }
         int jour = valeurs[1];
         emprunt.retourner(jour);
-        utilisateur.supprimerEmpruntEnCours(emprunt.getId());
-        utilisateur.ajouterEmpruntTermine(emprunt);
+        utilisateur.ajouterEmpruntTermine(utilisateur.supprimerEmpruntEnCours(emprunt.getId()));
 
         Livre livre = emprunt.getLivre();
         Reservation reservation = reservationsEnAttente.retirerPourLivre(livre.getId());
@@ -171,7 +170,7 @@ public class GestionnaireBibliotheque {
         return "RESERVATION_ASSIGNED " + nouvelEmprunt.getId() + " " + livre.getId();
     }
 
-    public String traiterRESERVE(int idConnexion, String argument){
+    private String traiterRESERVE(int idConnexion, String argument){
         Utilisateur utilisateur = utilisateursAuthentifies.get(idConnexion);
         if (utilisateur == null) {
             return AUTHENTICATION_ERROR;
@@ -200,7 +199,7 @@ public class GestionnaireBibliotheque {
         return "RESERVATION_OK " + reservation.getId() + " " + livre.getId();
     }
 
-    public String traiterINFO(int idConnexion, String argument){
+    private String traiterINFO(int idConnexion, String argument){
         Utilisateur utilisateur = utilisateursAuthentifies.get(idConnexion);
         if (utilisateur == null) {
             return AUTHENTICATION_ERROR;
@@ -223,7 +222,7 @@ public class GestionnaireBibliotheque {
         return "INFO 1" + formaterEmprunt(emprunt);
     }
 
-    public String traiterPENALTY(int idConnexion, String argument){
+    private String traiterPENALTY(int idConnexion, String argument){
         Utilisateur utilisateur = utilisateursAuthentifies.get(idConnexion);
         if (utilisateur == null) {
             return AUTHENTICATION_ERROR;
@@ -248,7 +247,7 @@ public class GestionnaireBibliotheque {
         return "PENALTY " + String.format(Locale.US, "%.2f", montant) + " " + joursRetard;
     }
 
-    public String traiterREGISTER(String argument) {
+    private String traiterREGISTER(String argument) {
         if (argument == null) {
             return BAD_ARGUMENT_ERROR;
         }
@@ -289,7 +288,7 @@ public class GestionnaireBibliotheque {
         return "REGISTERED " + idRegister + " " + nomUtilisateurRegister;
     }
 
-    public String traiterEXIT(int idConnexion){
+    private String traiterEXIT(int idConnexion){
         if (!utilisateursAuthentifies.containsKey(idConnexion)) {
             return AUTHENTICATION_ERROR;
         }
@@ -299,5 +298,9 @@ public class GestionnaireBibliotheque {
 
     public void setLivres(ListeLivres livres) {
         this.livres = livres;
+    }
+
+    public Utilisateur getUtilisateur(int id) {
+        return utilisateurs.get(id);
     }
 }
