@@ -1,5 +1,7 @@
 package gestionnaireBibliotheque;
 
+import java.util.Objects;
+
 public class Demo {
     public static void main(String[] args) {
         System.out.println("===== Exemple de l'enonce =====");
@@ -122,68 +124,76 @@ public class Demo {
         gestionBiblio.setLivres(catalogue);
 
         // Tests
-        assert(gestionBiblio.traiterCommande(1, "BOOKS", null).equals("BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique DISPONIBLE} {6 PetitPrince SaintExupery Roman DISPONIBLE}"));
-        assert(gestionBiblio.traiterCommande(1, "HELLO", null).equals("COMMAND_ERROR"));
+        tester(gestionBiblio.traiterCommande(1, "BOOKS", null), "BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique DISPONIBLE} {6 PetitPrince SaintExupery Roman DISPONIBLE}");
+        tester(gestionBiblio.traiterCommande(1, "HELLO", null), "COMMAND_ERROR");
 
         // REGISTER
-        assert(gestionBiblio.getUtilisateur(120) == null);
-        assert(gestionBiblio.traiterCommande(1, "REGISTER", "120 ETUDIANT Sara").equals("REGISTERED 120 Sara"));
-        assert(gestionBiblio.getUtilisateur(120).getNom().equals("Sara"));
-        assert(gestionBiblio.traiterCommande(1, "REGISTER", "201 PERSONNEL Julie").equals("REGISTERED 201 Julie"));
-        assert(gestionBiblio.traiterCommande(1, "REGISTER", "301 PROFESSEUR Tremblay").equals("REGISTERED 301 Tremblay"));
-        assert(gestionBiblio.traiterCommande(1, "REGISTER", "120 ETUDIANT Autre").equals("BAD_ARGUMENT_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "REGISTER", "abc ETUDIANT Sara").equals("BAD_ARGUMENT_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "REGISTER", "130 DIRECTEUR Paul").equals("BAD_ARGUMENT_ERROR"));
+        tester(gestionBiblio.getUtilisateur(120), null);
+        tester(gestionBiblio.traiterCommande(1, "REGISTER", "120 ETUDIANT Sara"), "REGISTERED 120 Sara");
+        tester(gestionBiblio.getUtilisateur(120).getNom(), "Sara");
+        tester(gestionBiblio.traiterCommande(1, "REGISTER", "201 PERSONNEL Julie"), "REGISTERED 201 Julie");
+        tester(gestionBiblio.traiterCommande(1, "REGISTER", "301 PROFESSEUR Tremblay"), "REGISTERED 301 Tremblay");
+        tester(gestionBiblio.traiterCommande(1, "REGISTER", "120 ETUDIANT Autre"), "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "REGISTER", "abc ETUDIANT Sara"), "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "REGISTER", "130 DIRECTEUR Paul"), "BAD_ARGUMENT_ERROR");
 
         // ID
-        assert(gestionBiblio.traiterCommande(1, "BORROW", "4 10").equals("AUTHENTICATION_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "ID", "999").equals("BAD_ARGUMENT_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "ID", "120").equals("AUTHORIZED 120 Sara"));
-        assert(gestionBiblio.traiterCommande(1, "ID", "201").equals("ALREADY_AUTHENTIFIED_ERROR"));
-        assert(gestionBiblio.traiterCommande(2, "ID", "120").equals("TOO_MANY_CONNECTIONS_ERROR"));
-        assert(gestionBiblio.traiterCommande(2, "ID", "201").equals("AUTHORIZED 201 Julie"));
-        assert(gestionBiblio.traiterCommande(3, "ID", "301").equals("AUTHORIZED 301 Tremblay"));
+        tester(gestionBiblio.traiterCommande(1, "BORROW", "4 10"), "AUTHENTICATION_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "ID", "999"), "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "ID", "120"), "AUTHORIZED 120 Sara");
+        tester(gestionBiblio.traiterCommande(1, "ID", "201"), "ALREADY_AUTHENTIFIED_ERROR");
+        tester(gestionBiblio.traiterCommande(2, "ID", "120"), "TOO_MANY_CONNECTIONS_ERROR");
+        tester(gestionBiblio.traiterCommande(2, "ID", "201"), "AUTHORIZED 201 Julie");
+        tester(gestionBiblio.traiterCommande(3, "ID", "301"), "AUTHORIZED 301 Tremblay");
 
         // BORROW
-        assert(gestionBiblio.traiterCommande(1, "BORROW", "4 10").equals("BORROW_OK 4 4 50"));
-        assert(gestionBiblio.traiterCommande(2, "BORROW", "4 11").equals("BOOK_NOT_AVAILABLE_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "BORROW", "99 10").equals("BOOK_NOT_FOUND_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "BORROW", "5").equals("BAD_ARGUMENT_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "BORROW", "5 12").equals("BORROW_OK 5 5 52"));
+        tester(gestionBiblio.traiterCommande(1, "BORROW", "4 10"), "BORROW_OK 4 4 50");
+        tester(gestionBiblio.traiterCommande(2, "BORROW", "4 11"), "BOOK_NOT_AVAILABLE_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "BORROW", "99 10"), "BOOK_NOT_FOUND_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "BORROW", "5"), "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "BORROW", "5 12"), "BORROW_OK 5 5 52");
 
         // INFO
-        assert(gestionBiblio.traiterCommande(1, "INFO", null).equals("INFO 2 {4 4 10 50 EN_COURS} {5 5 12 52 EN_COURS}"));
-        assert(gestionBiblio.traiterCommande(1, "INFO", "5").equals("INFO 1 {5 5 12 52 EN_COURS}"));
-        assert(gestionBiblio.traiterCommande(2, "INFO", "5").equals("BAD_BORROW_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "INFO", "x").equals("BAD_ARGUMENT_ERROR"));
+        tester(gestionBiblio.traiterCommande(1, "INFO", null), "INFO 2 {4 4 10 50 EN_COURS} {5 5 12 52 EN_COURS}");
+        tester(gestionBiblio.traiterCommande(1, "INFO", "5"), "INFO 1 {5 5 12 52 EN_COURS}");
+        tester(gestionBiblio.traiterCommande(2, "INFO", "5"), "BAD_BORROW_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "INFO", "x"), "BAD_ARGUMENT_ERROR");
 
         // RESERVE
-        assert(gestionBiblio.traiterCommande(2, "RESERVE", "6").equals("BOOK_ALREADY_AVAILABLE_ERROR"));
-        assert(gestionBiblio.traiterCommande(2, "RESERVE", "99").equals("BOOK_NOT_FOUND_ERROR"));
-        assert(gestionBiblio.traiterCommande(2, "RESERVE", "4").equals("RESERVATION_OK 5 4"));
-        assert(gestionBiblio.traiterCommande(2, "RESERVE", "4").equals("BAD_ARGUMENT_ERROR"));
-        assert(gestionBiblio.traiterCommande(3, "RESERVE", "4").equals("RESERVATION_OK 6 4"));
+        tester(gestionBiblio.traiterCommande(2, "RESERVE", "6"), "BOOK_ALREADY_AVAILABLE_ERROR");
+        tester(gestionBiblio.traiterCommande(2, "RESERVE", "99"), "BOOK_NOT_FOUND_ERROR");
+        tester(gestionBiblio.traiterCommande(2, "RESERVE", "4"), "RESERVATION_OK 5 4");
+        tester(gestionBiblio.traiterCommande(2, "RESERVE", "4"), "BAD_ARGUMENT_ERROR");
+        tester(gestionBiblio.traiterCommande(3, "RESERVE", "4"), "RESERVATION_OK 6 4");
 
         // RETURN
-        assert(gestionBiblio.traiterCommande(2, "RETURN", "4 40").equals("BAD_BORROW_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "RETURN", "4 60").equals("RESERVATION_ASSIGNED 6 4"));
-        assert(gestionBiblio.traiterCommande(3, "INFO", null).equals("INFO 1 {6 4 60 100 EN_COURS}"));
-        assert(gestionBiblio.traiterCommande(3, "RETURN", "6 70").equals("RESERVATION_ASSIGNED 7 4"));
-        assert(gestionBiblio.traiterCommande(2, "RETURN", "7 80").equals("RETURN_OK 7 4"));
-        assert(gestionBiblio.traiterCommande(1, "BOOKS", null).equals("BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique EMPRUNTE} {6 PetitPrince SaintExupery Roman DISPONIBLE}"));
+        tester(gestionBiblio.traiterCommande(2, "RETURN", "4 40"), "BAD_BORROW_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "RETURN", "4 60"), "RESERVATION_ASSIGNED 6 4");
+        tester(gestionBiblio.traiterCommande(3, "INFO", null), "INFO 1 {6 4 60 100 EN_COURS}");
+        tester(gestionBiblio.traiterCommande(3, "RETURN", "6 70"), "RESERVATION_ASSIGNED 7 4");
+        tester(gestionBiblio.traiterCommande(2, "RETURN", "7 80"), "RETURN_OK 7 4");
+        tester(gestionBiblio.traiterCommande(1, "BOOKS", null), "BOOKS 3 {4 Algorithmes Cormen Informatique DISPONIBLE} {5 Reseaux Tanenbaum Informatique EMPRUNTE} {6 PetitPrince SaintExupery Roman DISPONIBLE}");
 
         // PENALTY
-        assert(gestionBiblio.traiterCommande(1, "PENALTY", "4 100").equals("PENALTY 2.50 10"));
-        assert(gestionBiblio.traiterCommande(1, "PENALTY", "5 60").equals("PENALTY 2.00 8"));
-        assert(gestionBiblio.traiterCommande(1, "PENALTY", "5 30").equals("PENALTY 0.00 0"));
-        assert(gestionBiblio.traiterCommande(2, "PENALTY", "5 60").equals("BAD_BORROW_ERROR"));
+        tester(gestionBiblio.traiterCommande(1, "PENALTY", "4 100"), "PENALTY 2.50 10");
+        tester(gestionBiblio.traiterCommande(1, "PENALTY", "5 60"), "PENALTY 2.00 8");
+        tester(gestionBiblio.traiterCommande(1, "PENALTY", "5 30"), "PENALTY 0.00 0");
+        tester(gestionBiblio.traiterCommande(2, "PENALTY", "5 60"), "BAD_BORROW_ERROR");
 
         // EXIT
-        assert(gestionBiblio.traiterCommande(1, "EXIT", null).equals("END"));
-        assert(gestionBiblio.traiterCommande(1, "EXIT", null).equals("AUTHENTICATION_ERROR"));
-        assert(gestionBiblio.traiterCommande(1, "INFO", null).equals("AUTHENTICATION_ERROR"));
-        assert(gestionBiblio.traiterCommande(4, "ID", "120").equals("AUTHORIZED 120 Sara"));
+        tester(gestionBiblio.traiterCommande(1, "EXIT", null), "END");
+        tester(gestionBiblio.traiterCommande(1, "EXIT", null), "AUTHENTICATION_ERROR");
+        tester(gestionBiblio.traiterCommande(1, "INFO", null), "AUTHENTICATION_ERROR");
+        tester(gestionBiblio.traiterCommande(4, "ID", "120"), "AUTHORIZED 120 Sara");
 
         System.out.println("Tous les tests ont passés");
+    }
+
+    private static <T> void tester(T recu, T attendu) {
+        if(!Objects.equals(recu, attendu)) {
+            throw new AssertionError(
+                    "Attendu: " + attendu + ", mais reçu: " + recu
+            );
+        }
     }
 }
