@@ -1,6 +1,7 @@
 package gestionnaireBibliotheque;
 
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Demo {
     public static void main(String[] args) {
@@ -187,6 +188,24 @@ public class Demo {
         tester(gestionBiblio.traiterCommande(4, "ID", "120"), "AUTHORIZED 120 Sara");
 
         System.out.println("Tous les tests ont passés");
+
+        System.out.println();
+        System.out.println("=== Demo du client (aucune intégration serveur) ===");
+        System.out.println("Saisissez EXIT pour quitter:");
+        Scanner clavier = new Scanner(System.in);
+        String saisie;
+        int idConnexion = 9999;
+        System.out.print("> ");
+        saisie = clavier.nextLine();
+        while(! saisie.toUpperCase().equals("EXIT")) {
+            int pos = saisie.indexOf(' ');
+            String cmd = pos != -1 ? saisie.substring(0, pos) : saisie;
+            String arg = pos != -1 ? saisie.substring(pos + 1) : null;
+
+            System.out.println(gestionBiblio.traiterCommande(idConnexion, cmd, arg));
+            System.out.print("> ");
+            saisie = clavier.nextLine();
+        }
     }
 
     private static <T> void tester(T recu, T attendu) {
