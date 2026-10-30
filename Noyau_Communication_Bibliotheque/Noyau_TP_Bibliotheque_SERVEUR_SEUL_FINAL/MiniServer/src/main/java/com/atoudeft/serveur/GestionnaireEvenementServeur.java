@@ -18,6 +18,9 @@ package com.atoudeft.serveur;
 import com.atoudeft.commun.evenement.Evenement;
 import com.atoudeft.commun.evenement.GestionnaireEvenement;
 import com.atoudeft.commun.net.Connexion;
+import gestionnaireBibliotheque.GestionnaireBibliotheque;
+import gestionnaireBibliotheque.ListeLivres;
+import gestionnaireBibliotheque.Livre;
 
 /**
  * Cette classe repr�sente un gestionnaire d'�v�nement d'un serveur. Lorsqu'un serveur re�oit un texte d'un client,
@@ -29,6 +32,7 @@ import com.atoudeft.commun.net.Connexion;
  */
 public class GestionnaireEvenementServeur implements GestionnaireEvenement {
     private Serveur serveur;
+    private GestionnaireBibliotheque gestionnaireBibliotheque;
 
     /**
      * Construit un gestionnaire d'�v�nements pour un serveur.
@@ -37,6 +41,23 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
      */
     public GestionnaireEvenementServeur(Serveur serveur) {
         this.serveur = serveur;
+        this.gestionnaireBibliotheque = new GestionnaireBibliotheque();
+        ajouterDonneesTest();
+    }
+
+    private void ajouterDonneesTest() {
+        ListeLivres livres = new ListeLivres();
+        livres.ajouter(new Livre("Java", "Deitel", "Informatique"));
+        livres.ajouter(new Livre("CleanCode", "Martin", "Informatique"));
+        livres.ajouter(new Livre("Dune", "Herbert", "Roman"));
+        livres.ajouter(new Livre("Algorithmes", "Cormen", "Informatique"));
+        livres.ajouter(new Livre("PetitPrince", "SaintExupery", "Roman"));
+        gestionnaireBibliotheque.setLivres(livres);
+
+        gestionnaireBibliotheque.traiterCommande(0, "REGISTER", "101 ETUDIANT Amine");
+        gestionnaireBibliotheque.traiterCommande(0, "REGISTER", "102 ETUDIANT Sara");
+        gestionnaireBibliotheque.traiterCommande(0, "REGISTER", "201 PERSONNEL Julie");
+        gestionnaireBibliotheque.traiterCommande(0, "REGISTER", "301 PROFESSEUR Tremblay");
     }
 
     /**
@@ -53,11 +74,13 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
         if (source instanceof Connexion) {
             cnx = (Connexion) source;
             System.out.println("SERVEUR: Recu : " + evenement.getType() + " " + evenement.getArgument());
+            int idConnexion = System.identityHashCode(cnx);
             if ("EXIT".equals(evenement.getType())) {
-
+                gestionnaireBibliotheque.traiterCommande(idConnexion, evenement.getType(), evenement.getArgument());
                 cnx.envoyer("END.");
                 cnx.close();
-            } else {
+            }
+            else {
                 /*
                  * ------------------------------------------------------------
                  * TRAITEMENT FOURNI AU DEPART
@@ -85,7 +108,7 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
                  * par exemple : AUTHORIZED, BORROW_OK, RETURN_OK, etc.
                  * ------------------------------------------------------------
                  */
-                reponse = (evenement.getType() + " " + evenement.getArgument()).toUpperCase();
+                reponse = gestionnaireBibliotheque.traiterCommande(idConnexion, evenement.getType(), evenement.getArgument());
                 cnx.envoyer(reponse);
             }
         }
